@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Ask Azure Open AI</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f7f7f7;
+      font-family: Arial, sans-serif;
+    }
+
+    h1 {
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 24px;
+      color: #0078d4;
+    }
+
+    button {
+      display: block;
+      margin-top: 16px;
+      padding: 12px 24px;
+      font-size: 18px;
+      background-color: #0078d4;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #005a9e;
+    }
+
+    #question-wrapper {
+      display: flex;
+      flex-direction: column;
+      width: 80%;
+      max-width: 400px;
+      margin-top: 16px;
+    }
+
+    #question {
+      display: block;
+      width: 100%;
+      padding: 12px;
+      font-size: 18px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      margin-bottom: 16px;
+      box-sizing: border-box;
+    }
+
+    #result {
+      font-size: 18px;
+      text-align: center;
+      color: #0078d4;
+      max-width: 400px;
+      max-height: 160px;
+      margin-top: 16px;
+      padding: 8px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+      box-sizing: border-box;
+      overflow: auto;
+    }
+
+    .error {
+      font-size: 18px;
+      text-align: center;
+      color: #ff0000;
+      margin-top: 16px;
+    }
+
+    .loading-bar {
+  width: 100%;
+  height: 4px;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background-color: #0078d4;
+  animation: loading-bar 1s linear infinite;
+}
+
+@keyframes loading-bar {
+  0% { width: 0; }
+  100% { width: 100%; }
+}
+
+
+
+    #processing {
+  display: none;
+  position: relative;
+  margin-top: 16px;
+}
+
+
+  </style>
+  <script>
+    class Auth {
+      constructor(apiKey, apiUrl) {
+        this._apiKey = apiKey;
+        this._apiUrl = apiUrl;
+      }
+
+      async getResponse(prompt, maxTokens, temperature, frequencyPenalty, presencePenalty, topP, bestOf) {
+        const jsonRequest = JSON.stringify({
+          prompt,
+          max_tokens: maxTokens,
+          temperature,
+          frequency_penalty: frequencyPenalty,
+          presence_penalty: presencePenalty,
+          top_p: topP,
+          best_of: bestOf,
+          stop: null
+        });
+
+        const response = await fetch(this._apiUrl, {
+method: 'POST',
+headers: {
+'Content-Type': 'application/json',
+'api-key': this._apiKey
+},
+body: jsonRequest
+});
+
+if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const jsonResponse = await response.text();
+
+    // Parse the JSON response
+    const responseObject = JSON.parse(jsonResponse);
+
+    if (responseObject.hasOwnProperty('choices') && responseObject.choices.length > 0 && responseObject.choices[0].hasOwnProperty('text')) {
+      // Extract the 'text' field from the response
+      const text = responseObject.choices[0].text;
+
+      return text;
+    } else {
+      throw new Error('Invalid response from server.');
+    }
+  }
+}
+
+async function askQuestion() {
+  const apiKey = 'your_api_key_here';  // API KEY
+      const apiUrl = 'https://api.openai.com/v1/completions'; // API URL
+  const auth = new Auth(apiKey, apiUrl);
+
+  const questionBox = document.getElementById('question');
+  const prompt = questionBox.value.trim();
+
+  if (prompt === '') {
+    const errorDiv = document.getElementById('error');
+    errorDiv.textContent = 'Please enter a question.';
+    return;
+  }
+
+  const processingDiv = document.getElementById('processing');
+  processingDiv.style.display = 'block';
+
+  try {
+    const maxTokens = 256;
+    const temperature = 0.5;
+    const frequencyPenalty = 0.5;
+    const presencePenalty = 0.5;
+    const topP = 1;
+    const bestOf = 1;
+
+    const response = await auth.getResponse(prompt, maxTokens, temperature, frequencyPenalty, presencePenalty, topP, bestOf);
+
+    const resultDiv = document.getElementById('result');
+    resultDiv.textContent = response;
+    const errorDiv = document.getElementById('error');
+    errorDiv.textContent = '';
+  } catch (error) {
+    const errorDiv = document.getElementById('error');
+    errorDiv.textContent = error.message;
+  } finally {
+    processingDiv.style.display = 'none';
+  }
+}
+
+
+  </script>
+</head>
+<body>
+  <h1>Ask Azure Open AI</h1>
+  <div id="question-wrapper">
+    <input id="question" type="text" placeholder="Type your question here" maxlength="256" />
+    <button onclick="askQuestion()">Ask question</button>
+    <div id="processing">
+      <div class="loading-bar"></div>
+          <!--  <p>Please wait...</p> --> 
+    </div>
+    
+    <div id="error"></div>
+  </div>
+  <div id="result"></div>
+</body>
+</html>

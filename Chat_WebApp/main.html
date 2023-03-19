@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Ask Azure OpenAI</title>
+    </head>
+  <body>
+    <h1><img id="logo" src="https://ryanmangansitblog.files.wordpress.com/2023/03/logo-black-111021.png"
+        alt="Logo" width="250px"></h1>
+    <h1>Ask Azure OpenAI</h1>
+    <div class="info-box" onclick="toggleHelpText()">
+      <div style="text-align: center;"><span class="info-symbol" style="height: 8px;"><b>Click for Help?</b></span></div>
+      <p class="help-text">When asking Questions, make sure you use "?" at
+        the end or when you have finished a Sentence ensure you use a full stop.</p>
+    </div>
+    <div id="question-wrapper">
+      <textarea id="question" placeholder="Type your question here" maxlength="256" rows="4"></textarea>
+      <div class="button-container">
+        <button id="askQuestionButton" onclick="askQuestion()">Ask question</button>
+        <button id="copyButton" onclick="copyToClipboard()">Copy to Clipboard</button>
+      </div>
+
+      </div>
+      
+      <div id="processing">
+        <!-- <p>Please wait...</p> -->
+      </div>
+      <div class="error-wrapper">
+   
+      </div>
+      
+        <div id="error"></div>
+      </div>
+    </div>
+    <div id="result"></div>
+    <div></div>
+    <div class="loading-bar"></div>
+
+    <div id="footer">
+      <p>Copyright 2023 - Ryanmangansitblog LTD</p>
+    </div>
+
+    <script src="Source/main/Mscript.js"></script>
+    <link rel="stylesheet" href="Source/main/Mstyles.css">
+  </body>
+</html>

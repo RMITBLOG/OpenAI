@@ -77,7 +77,7 @@
 	
 	# Functions to export from this module
 	FunctionsToExport = @(
-		'New-OpenAIAuth',
+		'new-auth',
 		'Get-Response',
 		'Extract-WebPage',
 		'Handle-Error'

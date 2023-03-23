@@ -1,0 +1,25 @@
+{
+  "name": "openai-chat",
+  "version": "1.0.0",
+  "description": "Azure Open AI Testing Chatbot",
+  "main": "index.js",
+  "devDependencies": {
+    "electron": "^23.2.0",
+    "electron-packager": "^17.1.1"
+  },
+
+  "scripts": {
+    "start": "electron .",
+    "package-mac": "electron-packager . OpenAIChatBot --platform=darwin --arch=x64 --out=./dist --overwrite --icon=./icon.icns",
+    "package-win": "electron-packager . OpenAIChatBot --platform=win32 --arch=x64 --out=./dist --overwrite --icon=./icon.ico"
+  },
+  "keywords": [
+    "OpenAI",
+    "Chatbot",
+    "Azure",
+    "ChatGPT"
+  ],
+  "author": "Ryan Mangan",
+  "license": "GPL-3.0",
+  "Icon": "Icon.png"
+}

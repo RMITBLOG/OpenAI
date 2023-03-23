@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Ask Azure OpenAI</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+ 
+  </head>
+  
+  <body>
+    <div class="brandimage">
+      <h1><img id="logo" src="Source/image/LogodesignGrey.png"
+        alt="Logo" width="350px"></h1>
+    </div>
+    
+    
+   <!-- <div class="info-box" onclick="toggleHelpText()">
+      <div style="text-align: center;"><span class="info-symbol" style="height: 8px;"><b>Click for Help?</b></span></div>
+      <p class="help-text">When asking Questions, make sure you use "?" at
+        the end or when you have finished a Sentence ensure you use a full stop.</p>
+    </div> -->
+    
+    <div id="question-wrapper">
+      <textarea id="question" placeholder="Type your question here" maxlength="256" rows="4"></textarea>
+      <div class="button-row">
+        <button id="askQuestionButton" onclick="askQuestion()">Ask question</button>
+        <button id="copyButton" onclick="copyToClipboard()">
+          <i class="fas fa-clipboard"></i>
+        </button>
+      </div>
+        
+      </div>
+      <!-- Add a popup form for editing the API key and URL -->
+      <div id="apiFormModal" class="modal">
+        <div class="modal-content">
+          <h2>API Configuration</h2>
+          <form id="apiForm">
+            <label for="apiKeyInput">API Key:</label>
+            <input type="text" id="apiKeyInput" name="apiKeyInput" required>
+            <br>
+            <label for="apiUrlInput">API URL:</label>
+            <input type="text" id="apiUrlInput" name="apiUrlInput" required>
+            <br>
+            <button type="submit" id="saveApiConfig">Save</button>
+            <button type="button" id="closeApiForm">Close</button>
+          </form>
+        </div>
+      </div>
+
+      <!-- Add an "Edit API Config" button with a cog icon and info popup -->
+      <div class="error-wrapper">
+        <div id="error"></div>
+        <div class="icon-wrapper">
+          <button id="editApiConfigButton" class="cog-icon" onclick="openApiForm()">
+            <i class="fas fa-cog"></i>
+          </button>
+          <div class="popup-arrow"></div>
+        </div>
+      </div>
+
+      <div id="processing"></div>
+      <div id="result"></div>
+    </div>
+  
+    <div class="loading-bar"></div>
+
+    <script src="Source/main/Mscript.js"></script>
+    <link rel="stylesheet" href="Source/main/Mstyles.css">
+  </body>
+</html>

@@ -32,7 +32,7 @@ Import-Module .\PowerShell.AIDiag.psm1
 
 # Set your API key and API URL
 
-$env:MY_API_KEY = "KEY"
+#$env:MY_API_KEY = "KEY"
 
 $ApiKey = $env:MY_API_KEY
 $ApiUrl = "https://<Instance>.openai.azure.com/openai/deployments/<Model>/completions?api-version=2022-12-01"
@@ -43,13 +43,8 @@ $auth = New-Auth -ApiKey $apiKey -ApiUrl $apiUrl
 # Your PowerShell script goes here
 # For example, this cmdlet could potentially fail if the file doesn't exist:
 
-#try
-#{
-#	Get-Content C:\NonExistentFile.txt -ErrorAction Stop 
-#}
-#catch
-#{
-#	Handle-Error $_
-#}
-
-try {Get-Content C:\NonExistentFile.txt -ErrorAction Stop} catch {Handle-Error $_}
+try { Get-Process NonExistentProcess -ErrorAction Stop } catch { Handle-Error $_ }
+try { Get-Content C:\NonExistentFile.txt -ErrorAction Stop }catch { Handle-Error $_ }
+try { Get-Service "NonExistentService" -ErrorAction Stop }
+catch { Handle-Error $_ }
+try { Get-ADUser -Identity "NonExistentUser" -ErrorAction Stop} catch {Handle-Error $_ }
